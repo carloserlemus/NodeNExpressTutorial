@@ -24,3 +24,130 @@
         app.listen(port, err)
 
 ===================================================================
+-
+===================================================================
+-             Installing a Template Engine - "PUG"                -
+===================================================================
+
+    1. Install the template engine pug.
+        i. npm i pug in the command line.
+
+    2. Use a middle ware to tell the server to use pug view engine:
+        i. app.set('view engine', 'pug')
+
+    3. Create an pug file in a 'views' folder. 
+    
+    4. Update the HOME route such that the server responds with a render
+    of a pug file.
+        i.  // Home Route
+            app.get('/', (req, res) => {
+                res.render('index')
+            })
+    
+    5. Now it will point to the pug file. This pug file is where we build
+    the interface!
+
+===================================================================
+-
+===================================================================
+-                  Passing Values to a Pug file                   -
+===================================================================
+
+    1. We can send an object to the pug view file.
+        i. 
+            app.get('/', (req, res) => {
+                res.render('index', {
+                    title: 'Hello'
+                })
+            })
+
+        ii. In order to use the property in pug we can it by 
+        #{property}
+
+===================================================================
+-
+===================================================================
+-                      Adding A New Route                         -
+===================================================================
+
+    1. Create a new app.get with the route 'articles/add'
+        i.
+            app.get('/articles/add', (req, res) => {
+                res.render()
+            })
+        ii. Render a DIFFERENT pug template. In this case 'add'
+        and send a property named title: 'Add Article'
+            app.get('/articles/add', (req, res) => {
+                res.render('add', {
+                    title: 'Add Article'
+                })
+            })
+
+===================================================================
+-
+===================================================================
+-                      PUG: Creating a Layout                     -
+===================================================================
+    For consistency we want to create a template which all pages 
+    are based on.
+
+    1. Create a new file in /views called layout.pug.
+
+    2. Separate all the code you wish other pages to inherit and 
+    where you want a page to display write 'block content'
+
+        i.
+            doctype html
+            html
+                head
+                    title Knowledge Base
+                body
+                    block content
+                    br
+                    hr 
+                    footer
+                        p Copyright %copy; 2020
+
+
+    BLOCK CONTENT is where the output will be.
+
+    3. In order to display the layout.pug on the other views you must EXTEND
+    the layout into those views.
+        i. Write 'extends layout' at the top of the pug file.
+        ii. Call the 'block content'
+        iii. Indent all view specific content such that block content is the parent.
+
+            iv.
+                extends layout.pug
+
+                block content
+                    h1 #{title}
+===================================================================
+-
+===================================================================
+-                          PUG: LOGIC                             -
+===================================================================
+We can add if statements and loops to pug.
+
+    1. Create an array of objects in a req/res function and pass it
+    into the PUG view.
+        i.
+            app.get('route', (req, res) =>{
+                let array = [
+                    {
+                        property1: 'blah',
+                        property2: 'shblah'
+                    },
+                ]
+                res.render('pugfile', {
+                    title: 'blah'
+                    property: array
+                })
+            })
+        
+        ~ We can pass multiple variables in the object. ~ // May need to elaborate.
+    
+    2. Now that we've sent the object data to the specific PUG view. We
+    can use that information.
+
+    
