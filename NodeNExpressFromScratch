@@ -1,0 +1,26 @@
+===================================================================
+-Installing Express, Setting up a Server, and Running That Server.-
+===================================================================
+
+    1. Go to your project folder and initiate a package .json
+        - NPM INIT, OR NPM INIT -Y
+
+    2. Next Install The Required Dependencies:
+        i. npm install --save <depencency>
+            - Takes whatever you install and adds it to the dependencies in the packages.json
+
+    3. In the app.js (or whatever file you designated as your 'main' in your packages.json)
+    import the express module.
+        i. const express = require('express');
+
+    4. Next you want to declare the express function as a variable.
+        i. const app = express()
+
+    5. Create a route for the root of the website.
+        app.get('/', () => {
+            res.send('Whatever')
+        })
+    6. Create a listen for the server.
+        app.listen(port, err)
+
+===================================================================

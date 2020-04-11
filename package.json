@@ -1,0 +1,22 @@
+{
+  "name": "nodenexpressfrscratch",
+  "version": "1.0.0",
+  "description": "Simple knowledge based app",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carloserlemus/NodeNExpressTutorial.git"
+  },
+  "author": "Carlos ER LEMUS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carloserlemus/NodeNExpressTutorial/issues"
+  },
+  "homepage": "https://github.com/carloserlemus/NodeNExpressTutorial#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
