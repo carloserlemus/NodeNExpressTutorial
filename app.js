@@ -31,13 +31,12 @@ app.get('/', (req, res) => {
         if (err){
             console.log(err)
         } else {
-            res.render('index', {
+            res.render('index.pug', {
                 title: 'Article',
                 articles: articles
             })
         }
     })
-    res.render('index')
 })
 
 // Add Route

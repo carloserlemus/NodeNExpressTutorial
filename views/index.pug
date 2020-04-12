@@ -1,5 +1,8 @@
 extends layout.pug
 
 block content
-    each article, i in articles
+    h1 #{title}
+    each article in articles
         li= article.title
+        li= article.auther
+        li= article.body

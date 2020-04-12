@@ -304,7 +304,9 @@ We can add if statements and loops to pug.
             the find accepts: 1.) A query, but in this case, we want
             all the entries in our database so we include {} as the
             first parameter. 2.) A function with parameters err and 
-            the RESPONSE which we can name anything we want. 
+            the RESPONSE which we can name anything we want. It is 
+            important to note that the RESPONSE param is recieving
+            everything from the query.
 
             app.get('/', (req, res) => {
                 importedModel.find({}, (err, article) =>{
