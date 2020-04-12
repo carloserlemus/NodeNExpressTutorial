@@ -176,4 +176,153 @@ We can add if statements and loops to pug.
 
                 This will produce bullet points for 0, 1, 2, 3
 
+===================================================================
+-
+===================================================================
+-                     WORKING WITH MONGODB                        -
+===================================================================
+
+    1. MAKE SURE TO INSTALL MONGODB COMMAND LINE ON YOUR MACHINE.
+    
+    2. In the command line, run mongod to initiate the server.
+
+    3. In the command line, run mongo to connect to the server.
+
+    4. type 'show dbs' to see your databases.
+
+    5. Create a database in MONGODB 
+        i. type: use nameOfDatabase
+        ii. This will create the db and situate you inside of it.
+    
+    6. In the database you created, now you must create a COLLECTION
+        i. type: db.createCollection('name of collection')
+
+    7. To show the collections in the database:
+        i. type: show collections
+    
+    8. For this project we want to create an article object with the
+    properties: title, author, body..
+
+        i. to insert an object into a collection:
+            db.nameOfCollection.insert({})
+        ii. Once the object has been added, to verify it is in fact
+        inserted we should find it.
+
+            type: db.nameOfCollection.find()
+    
+    9. Add as many objects as needed.
+
+===================================================================
+-
+===================================================================
+-                     INSTALLING MONGOOSE                         -
+===================================================================
+
+    1. Install the mongoose dependency.
+        i. type: npm i mongoose.
+    
+    2. In your main file, import mongoose.
+        i. const mongoose = require('mongoose');
+    
+    3. Next we want to connect mongoose to the database we created.
+    We do this by using a mongoose method named .connect().
+        i. type mongoose.connect();
+        ii. the connect() method takes two parameters.
+            1. a string address.
+            2. an object {useNewUrlParser: true}
+                ? This object helps avoid deprecation warnings.
+                These warnings will arise because MONGOOSE wrote
+                a new tool which was used to parse mongodb connection
+                strings. This is a big change and thus, they gave 
+                the new parser a check. Hence, we must toggle it to
+                true.
+    
+    4. Now that we have a pending connection to our locally hosted db
+    We want to recieved notifications regarding our connection and 
+    whether an error has occured connecting to the db.
+
+    var db = mongoose.connectionion;
+    
+    db.on('error', (err) => {
+        console.log(err)
+    });
+
+    db.once('open', function() {
+        console.log('Connected to MongoDB')
+    });
+
+===================================================================
+-
+===================================================================
+-                        MONGOOSE MODEL                           -
+===================================================================
+
+    1. Now we are creating a model for mongoose.
+        i. Create a folder in the root directory /models
+    
+    2. In the /models dir we create a new file called articles.js.
+    We will refer to this file as our model file.
+
+    3. In the model file we will need to import mongoose.
+        i. let mongoose = require('mongoose');
+    
+    4. In the model file we are going to create a SCHEMA.
+    This will require the use of mongoose.schema()
+        i.
+            let articleSchema = mongoose.Schema({})
+        ii. We define the structure of our object in the curly
+        braces.
+
+            let articleSchema = mongoose.Schema({
+                title: {}
+            })
+        iii. Notice that the property accepts an object. In this 
+        object we define the parameters the information must adhere
+        to. In this case it must be a string, and it IS required.
+
+            let articleSchema = mongoose.Schema({
+                title: {
+                    type: String,
+                    required: true
+                }
+            })
+    
+    5. When the schema is fully defined we need to export it!
+        i.
+            let Article = module.exports = mongoose.model('Name of the Model', Schema Variable)
+    
+    6. Now we must import the model to our main file.
+        i. let Article = require('./models/article')
+
+    7. To be able to use the database on our HOME ROUTE we need to
+    understand how .find() works within the context of a GET.
+        i.
+            app.get('/', (req, res) => {
+                importedModel.find()
+            })
+
+            the find accepts: 1.) A query, but in this case, we want
+            all the entries in our database so we include {} as the
+            first parameter. 2.) A function with parameters err and 
+            the RESPONSE which we can name anything we want. 
+
+            app.get('/', (req, res) => {
+                importedModel.find({}, (err, article) =>{
+
+                })
+            })
+        ii
+            Now that we understand that the second param of the find()
+            is the response. We can use it to render our pug view.
+
+            app.get('/', (req, res) => {
+                importedModel.find({}, (err, articles) =>{
+                    res.render('index', {
+                        title: 'Articles',
+                        articles: articles
+                    })
+                })
+            })
+
+
     

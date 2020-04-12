@@ -1,37 +1,43 @@
 const express = require('express');
 const pug = require('pug');
+const mongoose = require('mongoose');
 const app = express();
 
-// Load View Engine
+// Importing the model
+let Article = require('./models/articles')
+
+
+// CONNECTING TO MONGODB
+mongoose.connect('mongodb://localhost/nodekb', {useNewUrlParser: true});
+let db = mongoose.connection;
+
+// Error checker
+db.on('error', (err) =>{
+    console.log(err)
+})
+
+// Server Connection Notification
+db.once('open', () => {
+    console.log('Connected to MongoDB')
+})
+
+
+// Load View Engine -- middleware
 app.set('view engine', 'pug')
 
 // Home Route
 app.get('/', (req, res) => {
-    let articles = [
-        {
-            id: 1,
-            title: 'Article 1',
-            auther: 'X. Charles',
-            body:'This is the article body.'
-        },
-        {
-            id: 2,
-            title: 'Article 2',
-            auther: 'J. Smith',
-            body:'This is the article body.'
-        },
-        {
-            id: 3,
-            title: 'Article 3',
-            auther: 'H. Mccoy',
-            body:'This is the article body.'
+    Article.find({}, function(err, articles){
+        if (err){
+            console.log(err)
+        } else {
+            res.render('index', {
+                title: 'Article',
+                articles: articles
+            })
         }
-    ]
-
-    res.render('index', {
-        title: 'Hello',
-        articles: articles
     })
+    res.render('index')
 })
 
 // Add Route
