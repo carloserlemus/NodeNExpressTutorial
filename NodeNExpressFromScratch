@@ -150,4 +150,30 @@ We can add if statements and loops to pug.
     2. Now that we've sent the object data to the specific PUG view. We
     can use that information.
 
+    3. Pug Iteration
+        Pug supports two primary methods of iteration: each and while
+            A. EACH: This iterates over EACH value/property in an array or object.
+
+            you can include and 'index' to display the index number/property name:
+            ul
+                each val, index in [1, 2, 3]
+                    li = val and index
+
+            This will display bullet points with VAL being the value of each item
+            in the array.
+
+            NOTE: An else can be used. For example, if there are no values to iterate
+            over then you can write else and a code snippet that will run under that
+            condition.
+
+            B. WHILE: This works pretty simple. You declare a condition and so long as
+            that condition is true the code snippet will run.
+                EX.
+                    - var n = 0;  // ======== This is how you declare a variable in pug. ========
+                    ul
+                        while n < 4
+                        li= n++
+
+                This will produce bullet points for 0, 1, 2, 3
+
     

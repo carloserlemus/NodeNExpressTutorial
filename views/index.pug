@@ -2,4 +2,7 @@ extends layout.pug
 
 block content
     h1 #{title}
-    
+    each article, index in articles
+        h1= article.title
+        h3= article.auther
+        p= article.body
