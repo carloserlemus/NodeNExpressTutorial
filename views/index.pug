@@ -3,6 +3,6 @@ extends layout.pug
 block content
     h1 #{title}
     each article in articles
-        li= article.title
-        li= article.auther
-        li= article.body
+        h1= article.title
+        h4= article.auther
+        p= article.body
