@@ -46,6 +46,12 @@ app.get('/articles/add', (req, res) => {
     })
 })
 
+// Add 'Submit' POST Route
+app.post('/articles/add', (req, res) => {
+    console.log('Submoited!')
+    return
+})
+
 // Start Server
 app.listen(3000, () => {
     console.log('Smooth Sailing on port 3000...')

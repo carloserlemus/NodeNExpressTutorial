@@ -326,5 +326,59 @@ We can add if statements and loops to pug.
                 })
             })
 
+===================================================================
+-
+===================================================================
+-               Form to Add Article to MONGO DB                   -
+===================================================================
 
+    1. First, we will create the form in PUG.
+        i. form()
+
+        ii. Add attributes:
+            form(method='POST', action='/articles/add')
+
+        iii. Inside the form we create a div group:
+            form(method= 'POST', action='/articles/add')
+                #form-group
+                    label Title:
+                    input.form-control(name='title', type='text)
+            
+            What this does is create a field where we can CREATE or
+            POST the information we need.
+
+            Repeat step iii for auther and body.
+        
+        NOTE: body will need to change to "textarea" as well as getting
+        rid of the  type='text'.
+
+        iv. finally, we will need a button so that we can submit the information:
+
+            input.btn.btn-primary(type='submit', value='Submit')
+
+    2. Now that we have the form set up, we need to set it up so that when the client
+    submits something the server will get it. This is formally known as a POST
+    request.
+
+        i. For this we will use the Express's post method:
+            app.post()
+        
+        ii. it accepts 2 parameters: the route (string), and the (req,res) function:
+            app.post('route/route/route', (req, res) => {
+                //body
+            })
+
+        iii. To test if the post request is working place console.log('message') in 
+        the body of the post method. You should see the message in the console of the
+        server.
     
+    3. The behaviour we want now is that when the user fills out the form and clicks
+    submit. We want the information they fill out to be added to our database. This will
+    require bodyparser.
+
+        i. To install body parser type: npm install body-parser
+
+
+
+
+
