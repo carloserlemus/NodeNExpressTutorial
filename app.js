@@ -1,6 +1,7 @@
 const express = require('express');
 const pug = require('pug');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const app = express();
 
 // Importing the model
@@ -21,9 +22,17 @@ db.once('open', () => {
     console.log('Connected to MongoDB')
 })
 
+// =========== middleware ===========
 
 // Load View Engine -- middleware
 app.set('view engine', 'pug')
+
+// Body - Parser Middleware
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+// Set Public Folder
+app.use(express.static('public'))
 
 // Home Route
 app.get('/', (req, res) => {
@@ -48,7 +57,9 @@ app.get('/articles/add', (req, res) => {
 
 // Add 'Submit' POST Route
 app.post('/articles/add', (req, res) => {
-    console.log('Submoited!')
+    console.log(req.body.title)
+    console.log(req.body.auther)
+    console.log(req.body.body)
     return
 })
 

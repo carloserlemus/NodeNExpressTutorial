@@ -378,6 +378,57 @@ We can add if statements and loops to pug.
 
         i. To install body parser type: npm install body-parser
 
+        ii. In order for body parser to function we need to install body-parser
+        middlewares.
+            // parse application/x-www-form-urlencoded
+            app.use(bodyParser.urlencoded({ extended: false }))
+            // parse application/json
+            app.use(bodyParser.json())
+
+        iii. To test the use of body parser include this in the POsT request:
+            console.log(req.body.nameoffield)
+
+===================================================================
+-
+===================================================================
+-                        BOWER AND BOOTSTRAP                      -
+===================================================================
+
+    1. Setting up
+        i. create a public folder in the root directory.
+        
+        ii. We need to let Express know which folder we want it to
+        treate as a static folder.
+
+            app.use(express.static('public'))
+        
+        iii. Now express understands that it can serve whatever is 
+        inside our ./public folder
+    
+    2. Installing BOOTSTRAP using a front end package manager.
+        i. We will install bower.
+            - NPM INSTALL -G BOWER or just npm i bower.
+
+        ii. When we install bower packages, it is going to make a folder
+        we want that folder in the public folder. In order to do that 
+        we must:
+            - create a .bowerrc folder in the root directory
+            - in .bowerrc put the following code:
+                {
+                    "directory": "public/bower_components"
+                }
+        
+        iii. at this point we can install bootstrap:
+            - bower install bootstrap
+        
+        iv. Once installed we need to reference it in our template engine.
+        For pug it looks like this:
+
+            link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
+
+
+
+
 
 
 
