@@ -425,6 +425,105 @@ We can add if statements and loops to pug.
         For pug it looks like this:
 
             link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
+        
+        v. In the layout we are going to add some bootstrap mark up so that
+        we can make things look a little bit more stylish.
+            - Add a .container class in the layout and have everything
+            be a child of it.
+
+                body
+                    .container
+                        block content
+                        br
+                        hr 
+                        footer
+                        p Copyright %copy; 2020
+
+        vi. In the index file we will continue to add more bootstrap mark-up to make things
+        look prettier.
+
+            block content
+                h1 #{title}
+                ul.list-group
+                    each article in articles
+                        li.list-group-item= article.title
+                        li.list-group-item= article.auther
+                        li.list-group-item= article.body
+    
+    3. Adding a Bootstrap NavBar: We are going to add a navbar in the 
+    layout.pug in the body above the .container class.
+        - For this use bootstrap and a html to pug translator.
+    
+    4. In order for some of bootstraps advanced functions to work we 
+    will have to add some reference to some scripts:
+
+        script(src="/bower_components/jquery/dist/jquery.js")
+        script(src="/bower_components/bootstrap/dist/js/bootstrap.js")
+
+    5. Now we want the article.title to be a link that forwards to another
+    part of the web application.
+
+        i. In order to this we have to add an <a href> with the title
+        from the db.
+
+            a(href="route")= article.title
+        
+        ii. We are going to use the id of the article to forward to a 
+        a different part of the site. 
+
+        a(href="/article" + article._id)
+
+        This follows the route of /article/id
+
+        At this point, it will go to that address but there's no route
+        that exists.
+
+    6. ** Now we need to create a GET route for the individual ids
+        i. First we need to use the GET method from Express:
+            app.get('route', (req, res))
+
+        ii. This next part is where this process begins to change. In the
+        .get() where we pass the /route/ we are now passing ':id' immediatley
+        after it. The colon ':' signals to express that the following is a
+        place holder. You can also think of this as a variable.
+
+        iii. Inside the (req,res) we want to use the model with a findById method.
+
+                Article.findbyId()
+        
+        iv. We can use the :id that is passed in the Article.findbyId(), like so:
+
+            Article.findById(req.params.id)
+
+            Note: the last part must match whatever comes after the ':'
+
+        v. findById() accepts the parameters ':id' and (err, article)
+            - We can test if the article is being fetched by using console.log(article.)
+        
+        vi. Lastly, we will need to send a render of the article using said articles 
+        data in the database.
+
+            app.get('/route/:id', (req, res) => {
+                Article.findById(req.params.id, (err, article)=>{
+                    res.render('article', {
+                        article: article
+                    })
+                })
+            })
+        
+    7. Now that we can pass the individual id of the object in the database into
+    a get response. We can make a pug view that will use that information to render
+    a page.
+
+        i. make a new .pug file in the views folder named 'article'
+
+        ii. extend the layout and put in the block content.
+
+        iii. Since we passed the article object we can access the titles. etc!
+
+            MAGICAL!
+
+    
 
 
 

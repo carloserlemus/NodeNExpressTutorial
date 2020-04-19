@@ -4,9 +4,24 @@ html
         title Knowledge Base
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
     body
-    .container
-        block content
-        br
-        hr 
-        footer
-        p Copyright %copy; 2020
+        nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+            a.navbar-brand(href='/') KnowledgeBase
+            button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarNav.collapse.navbar-collapse
+                ul.navbar-nav
+                    li.nav-item
+                        a.nav-link(href='/') Home 
+                    li.nav-item
+                        a.nav-link(href='/articles/add') Add Article
+
+        .container
+            block content
+            br
+            hr 
+            footer
+            p Copyright %copy; 2020
+
+        script(src='/bower_components/jquery/dist/jquery.js')
+        script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
+        
