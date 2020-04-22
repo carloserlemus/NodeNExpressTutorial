@@ -529,6 +529,109 @@ We can add if statements and loops to pug.
 -                   UPDATE AND DELETE ARTICLES                    -
 ===================================================================
 
+    1. We're going to add an EDIT button to the single article page.
+        i. Firstly, we will add the button to the single article
+        view:
+            hr
+            a.btn.btn-default(href="/article/edit/" +article._id) Edit
+        
+        - Used bootstrap to create the fancy button.
+        - the route takes us to a page where we can make our edits, and
+        the id helps us targeta a specific article.
+
+    2. Now we need to add a ROUTE and a VIEW for the /article/edit so
+    the user has a place to edit the article. This will be similar to
+    the route that we already made to 'get the single article.'
+        i.
+            // GET single article.
+            app.get('/article/:id', (req, res) => {
+                Article.findById(req.params.id, (err, article) => {
+                    res.render('article', {
+                        article: article
+                    })
+                })
+            })
+        
+        ii. However, there will be some changes:
+            a. We will update the route to:
+                'article/edit/:id'
+            b. The findById will remain that same because this is whatever
+            we use to find the specific article and render a view.
+            c. We will change the view to edit_article and pass the
+            object to that view.
+
+            d. Make sure to pass a title: 'name of page' such that we can
+            use it in our pug.
+
+        iii. Now we need to recreate the pug view to which this route refers
+        to.
+            a. /views/edit_article.pug
+
+            b. Copy everything from the add.pug.
+
+            c. Because this form is going to a different place we need to update
+            the action in the form.
+
+                form(method='POST', action='/articles/edit/' + article._id)
+            
+            d. create a value for each input that displays what the current
+            value of that field is.
+                input.form-control(name='title', type='text', value='article.title')
+
+    3. Now we want to catch the submission from the edit_article.pug which is going
+        to /articles/edit/:id. This post request will be similar to the add:
+
+            // Add 'Submit' POST Route
+            app.post('/articles/add', (req, res) => {
+                let article = new Article()
+                article.title = req.body.title
+                article.auther = req.body.auther
+                article.body = req.body.body
+
+                article.save(function(err){
+                    if (err){
+                        console.log(err)
+                        return
+                    } else {
+                        res.redirect('/')
+                    }
+                })
+            })
+
+            i. This is an UPDATE submit, change the comment accordingly.
+
+            ii. The route will need to go to articles/edit + id so we can target
+            the article. '/articles/edit/:id'
+
+            iii. new Article() doesn't make sense for what we want to do. We want to
+            use an existing article.
+
+                - We are going to create an empty object: let article = {}
+            
+            iv. We want to get the fields from the form and ADD to the empty object. Addit-
+            ionally we have to define a QUERY because we need to specify which one we 
+            want to update.
+
+                a. We will say: Where _id matches req.params.id (Remember this will be passed
+                via the route.)
+                    let query = {_id:req.params.id}
+                
+                b. Additionally, we are going to change article.save to Article.update. 
+                For reasons unknown we are using the model. (UPDATE LATER.)
+
+                c. In Article.update(query, object,  err)
+            
+            VOILA, you can now update articles.
+    
+    4. Now it's time to create a DELETE request. This will be more difficult to understand.
+    The reason being is we are using AJAX(UPDATE LATER.) but first we will create a delete 
+    button similar to how we added an edit button.
+
+        i. The only things we need to do differently is that we don't need to include an
+        href. Additionally, we need to include a class so that JQUERY can grab on to it.
+        Additionally, we need an ID to make that delete request, we we include data-id='id'.
+
+                a.btn.btn-danger.delete-article(href="#", data-id=article._id) Delete
 
     
 

@@ -48,8 +48,15 @@ app.get('/', (req, res) => {
     })
 })
 
+// 'Add' Route
+app.get('/articles/add', (req, res) => {
+    res.render('add_article', {
+        title: 'Add Article'
+    })
+})
+
 // GET single article.
-app.get('/article/:id', (req, res) => {
+app.get('/articles/:id', (req, res) => {
     Article.findById(req.params.id, (err, article) => {
         res.render('article', {
             article: article
@@ -57,19 +64,50 @@ app.get('/article/:id', (req, res) => {
     })
 })
 
-// Add Route
-app.get('/articles/add', (req, res) => {
-    res.render('add', {
-        title: 'Add Article'
+// Add 'Submit' POST Route
+app.post('/articles/add', (req, res) => {
+    let article = new Article()
+    article.title = req.body.title
+    article.auther = req.body.auther
+    article.body = req.body.body
+
+    article.save(function(err){
+        if (err){
+            console.log(err)
+            return
+        } else {
+            res.redirect('/')
+        }
     })
 })
 
-// Add 'Submit' POST Route
-app.post('/articles/add', (req, res) => {
-    console.log(req.body.title)
-    console.log(req.body.auther)
-    console.log(req.body.body)
-    return
+// Load Edit Form
+app.get('/articles/edit/:id', (req, res) => {
+    Article.findById(req.params.id, (err, article) => {
+        res.render('edit_article', {
+            title: 'Edit Article',
+            article: article
+        })
+    })
+})
+
+// Update 'Submit' POST Route
+app.post('/articles/edit/:id', (req, res) => {
+    let article = {}
+    article.title = req.body.title
+    article.auther = req.body.auther
+    article.body = req.body.body
+
+    let query = {_id: req.params.id}
+
+    Article.update(query, article, function(err){
+        if (err){
+            console.log(err)
+            return
+        } else {
+            res.redirect('/')
+        }
+    })
 })
 
 // Start Server
