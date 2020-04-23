@@ -632,6 +632,65 @@ We can add if statements and loops to pug.
         Additionally, we need an ID to make that delete request, we we include data-id='id'.
 
                 a.btn.btn-danger.delete-article(href="#", data-id=article._id) Delete
+        
+        ii. The file that we are going to use to process the delete request is going to go
+        in the public folder.
+            /folder/js/main.js
+
+                a. Make sure to include this file in your layout.pug.
+                script(src='js/main.js')
+
+        iii. In the main.js we are going to make an AJAX request using JQUERY. 
+
+            In this file we are going to grab onto the .delete-article class we included in 
+            the article.pug
+
+            We then need to get a TARGET to grab on to the data-id we included.
+
+            ... This part is a lot of JQUERY, HERE'S THE CODE:
+
+            $(document).ready(function(){
+                $('.delete-article').on('click', function(e){
+                    $target = $(e.target)
+                    const id = ($target.attr('data-id'))
+
+                    // We make the request.
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/article' + id,
+                        success: function(response){
+                            alert('Deleting Article...')
+                            window.location.href='/'
+                        },
+                        error: function(err){
+                            console.log(err)
+                        }
+                    })
+                })
+            })
+
+        iv. The delete request will be submitted to /article/id, therefore we must create an
+        route to catch the request. 
+
+            a. app.delete()
+
+            b. app.delete('/article/:id', function(req, res){
+
+            })
+
+            c. In order to delete we must set a query variable where the id will match
+            the id given by the browser.
+
+            app.delete('/article/:id', function(req, res){
+                let query = {_id: req.params.id}
+            })
+
+            d. Then we use Article.remove(query, function(err){
+                if(err){
+                    console.log(err)
+                }
+                res.send('success)
+            })
 
     
 
